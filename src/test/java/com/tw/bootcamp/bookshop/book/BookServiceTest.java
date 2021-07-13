@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ class BookServiceTest {
         Book book = new Book("title", "author name", 300);
         bookRepository.save(book);
 
-        List<Book> books = bookService.fetchAll();
+        List<Book> books = bookService.fetchAll("asc","price");
 
         assertEquals(1, books.size());
         assertEquals("title", books.get(0).getName());
@@ -40,9 +41,21 @@ class BookServiceTest {
         bookRepository.save(lowPrice);
         bookRepository.save(highPrice);
 
-        List<Book> books = bookService.fetchAll();
+        List<Book> books = bookService.fetchAll("desc","price");
 
         assertEquals(2, books.size());
         assertEquals("costlier", books.get(0).getName());
+    }
+
+    @Test
+    void shouldFetchAllBooksSortedByPriceInAscending() {
+        Book lowPrice = new Book("title", "author name", 300);
+        Book highPrice = new Book("costlier", "author name", 400);
+        bookRepository.save(highPrice);
+        bookRepository.save(lowPrice);
+
+        List<Book> books = bookService.fetchAll("asc","price");
+        assertEquals(2, books.size());
+        assertEquals(300, books.get(0).getPrice());
     }
 }

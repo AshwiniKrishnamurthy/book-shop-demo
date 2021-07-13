@@ -1,8 +1,15 @@
 package com.tw.bootcamp.bookshop.book;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "books")
 public class Book {
     @Id
@@ -11,9 +18,10 @@ public class Book {
     private String name;
     private String authorName;
     private Integer price;
+    private int quantity;
 
-    public Book() {
-    }
+//    public Book() {
+//    }
 
     public Book(String name, String authorName, Integer price) {
         this.name = name;
